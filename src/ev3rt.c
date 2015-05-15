@@ -2,7 +2,7 @@
 #include "ev3api.h"
 
 
-// void mrb_mruby_balancer_gem_init(mrb_state *mrb);
+void mrb_mruby_balancer_gem_init(mrb_state *mrb);
 void mrb_mruby_button_gem_init(mrb_state *mrb);
 void mrb_mruby_clock_gem_init(mrb_state *mrb);
 void mrb_mruby_lcd_gem_init(mrb_state *mrb);
@@ -82,7 +82,7 @@ mrb_mruby_ev3rt_gem_init(mrb_state* mrb)
 	mrb_define_method(mrb, ev3rt_class, "initialize", mrb_mruby_ev3rt_initialize, MRB_ARGS_REQ(1));
 
         // initialize under classes
-//        mrb_mruby_balancer_gem_init(mrb);
+        mrb_mruby_balancer_gem_init(mrb);
         mrb_mruby_button_gem_init(mrb);
         mrb_mruby_clock_gem_init(mrb);
         mrb_mruby_lcd_gem_init(mrb);
