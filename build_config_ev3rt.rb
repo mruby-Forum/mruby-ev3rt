@@ -5,9 +5,12 @@
 # User Configuration
 #
 
-EV3RT_PATH = "/Users/xxx/ev3rt-b4-r2/hrp2"
+# hrp2 directory
+EV3RT_PATH = "/Users/xxx/ev3rt/hrp2"
 
-GNU_TOOL_PREFX = "arm-none-eabi-"
+GNU_TOOL_PREFX = "/usr/local/gcc-arm-none-eabi-4_9-2014q4/bin/arm-none-eabi-"
+
+##GNU_TOOL_PREFX = "arm-none-eabi-"
 
 
 #
@@ -33,6 +36,7 @@ end
 # http://dev.toppers.jp/trac_user/ev3pf/wiki/WhatsEV3RT (in Japanese)
 #
 MRuby::CrossBuild.new("EV3RT") do |conf|
+
   toolchain :gcc
 
   EV3_RT_INCLUDES = %w(include
@@ -70,6 +74,7 @@ MRuby::CrossBuild.new("EV3RT") do |conf|
                        target/ev3_gcc/pil/include
                        target/ev3_gcc/platform/include
                        target/ev3_gcc/TLSF-2.4.6/include
+                       sdk/common/ev3api/include
 					   syssvc
                        arch/arm_gcc/am1808
                        arch/arm_gcc/common
@@ -85,14 +90,15 @@ MRuby::CrossBuild.new("EV3RT") do |conf|
                   -Wall -DBUILD_EV3_PLATFORM -DCONFIG_FB_DEFERRED_IO
                   -D__KERNEL__ -D__TARGET_ARCH_ARM=5 -DTOPPERS_CFG1_OUT)
 
+
     cc.flags << %w(-O3)
     ##cc.flags << %w(-Os)
-    ##cc.flags << %w(-g)
+#    cc.flags << %w(-g3)
     ##cc.flags << %w(DUSE_CFG_PASS3)
 
     cc.compile_options = "%{flags} -o %{outfile} -c %{infile}"
 
-    cc.defines << %w(DISABLE_STDIO) #if you dont need stdio.
+    cc.defines << %w(MRB_DISABLE_STDIO) #if you dont need stdio.
     #cc.defines << %w(POOL_PAGE_SIZE=1000) #effective only for use with mruby-eval
   end
 
@@ -136,7 +142,12 @@ MRuby::CrossBuild.new("EV3RT") do |conf|
   #conf.gem :core => "mruby-symbol-ext"
   #conf.gem :core => "mruby-random"
   #conf.gem :core => "mruby-object-ext"
+  #conf.gem "mrbgems/mruby-ev3rt"
+#  conf.gembox 'default'
   conf.gem "../mruby-ev3rt"
+  conf.gem :github => "yamanekko/mruby-ev3rt-io"
 #  conf.gem :github => "yamanekko/mruby-ev3rt"
 
+  #light-weight regular expression
+  #conf.gem :github => "masamitsu-murase/mruby-hs-regexp", :branch => "master"
 end
