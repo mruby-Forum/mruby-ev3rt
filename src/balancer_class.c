@@ -4,6 +4,10 @@
 #include "mruby/variable.h"
 #include "ev3api.h"
 #include "balancer.h"
+#include "balancer_private.h"
+
+//float K_F[4]
+// @K_F0 車輪回転角度係数, @K_F1 車体傾斜角度係数, @K_F2 車輪回転角速度係数 ,@K_F3 車体傾斜角速度係数
 
 static mrb_value
 mrb_mruby_balancer_initialize(mrb_state *mrb, mrb_value self)
@@ -11,9 +15,69 @@ mrb_mruby_balancer_initialize(mrb_state *mrb, mrb_value self)
 	// default gyro direction is normal
 	mrb_int n1 = 1;
 	mrb_iv_set(mrb, self, mrb_intern_lit(mrb, "@gyro_direction"), mrb_fixnum_value(n1));
-
 	balance_init();
 	return self;
+}
+
+//K_F[0]をセットする関数
+static mrb_value
+mrb_mruby_set_K_F0(mrb_state *mrb, mrb_value self)
+{
+	mrb_get_args(mrb, "f", &K_F[0]);
+	return self;
+}
+
+//K_F[1]をセットする関数
+static mrb_value
+mrb_mruby_set_K_F1(mrb_state *mrb, mrb_value self)
+{
+	mrb_get_args(mrb, "f", &K_F[1]);
+	return self;
+}
+
+//K_F[2]をセットする関数
+static mrb_value
+mrb_mruby_set_K_F2(mrb_state *mrb, mrb_value self)
+{
+	mrb_get_args(mrb, "f", &K_F[2]);
+	return self;
+}
+
+//K_F[3]をセットする関数
+static mrb_value
+mrb_mruby_set_K_F3(mrb_state *mrb, mrb_value self)
+{
+	mrb_get_args(mrb, "f", &K_F[3]);
+	return self;
+}
+
+
+//K_F[0]を取得する関数
+static mrb_value
+mrb_mruby_get_K_F0(mrb_state *mrb, mrb_value self)
+{
+	return mrb_float_value(mrb, (mrb_float)K_F[0]);
+}
+
+//K_F[1]を取得する関数
+static mrb_value
+mrb_mruby_get_K_F1(mrb_state *mrb, mrb_value self)
+{
+	return mrb_float_value(mrb, (mrb_float)K_F[1]);
+}
+
+//K_F[2]を取得する関数
+static mrb_value
+mrb_mruby_get_K_F2(mrb_state *mrb, mrb_value self)
+{
+	return mrb_float_value(mrb, (mrb_float)K_F[2]);
+}
+
+//K_F[3]を取得する関数
+static mrb_value
+mrb_mruby_get_K_F3(mrb_state *mrb, mrb_value self)
+{
+	return mrb_float_value(mrb, (mrb_float)K_F[3]);
 }
 
 static mrb_value
@@ -147,8 +211,15 @@ mrb_mruby_balancer_gem_init(mrb_state* mrb)
 	mrb_define_method(mrb, balancer_class, "left_motor=", mrb_mruby_balancer_set_left_motor, MRB_ARGS_REQ(1));
 	mrb_define_method(mrb, balancer_class, "gyro=", mrb_mruby_balancer_set_gyro, MRB_ARGS_REQ(1));
 	mrb_define_method(mrb, balancer_class, "gyro_direction=", mrb_mruby_balancer_set_gyro_direction, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, balancer_class, "K_F0=", mrb_mruby_set_K_F0, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, balancer_class, "K_F1=", mrb_mruby_set_K_F1, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, balancer_class, "K_F2=", mrb_mruby_set_K_F2, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, balancer_class, "K_F3=", mrb_mruby_set_K_F3, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, balancer_class, "K_F0", mrb_mruby_get_K_F0, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, balancer_class, "K_F1", mrb_mruby_get_K_F1, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, balancer_class, "K_F2", mrb_mruby_get_K_F2, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, balancer_class, "K_F3", mrb_mruby_get_K_F3, MRB_ARGS_REQ(1));
 }
-
 void
 mrb_mruby_balancer_gem_final(mrb_state* mrb)
 {
