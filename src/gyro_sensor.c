@@ -16,7 +16,7 @@ mrb_mruby_gyro_sensor_initialize(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
-mrb_mruby_gyro_sensor_getRate(mrb_state *mrb, mrb_value self)
+mrb_mruby_gyro_sensor_getAnglerVelocity(mrb_state *mrb, mrb_value self)
 {
 	mrb_value port_val = mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@port"));
 	sensor_port_t port = mrb_fixnum(port_val);
@@ -41,7 +41,7 @@ mrb_mruby_gyro_sensor_gem_init(mrb_state* mrb)
 	struct RClass * gyro_sensor_class = mrb_define_class_under(mrb, ev3rt_class, "GyroSensor", sensor_class);
 
 	mrb_define_method(mrb, gyro_sensor_class, "initialize", mrb_mruby_gyro_sensor_initialize, MRB_ARGS_REQ(1));
-	mrb_define_method(mrb, gyro_sensor_class, "rate", mrb_mruby_gyro_sensor_getRate, MRB_ARGS_NONE());
+	mrb_define_method(mrb, gyro_sensor_class, "angler_velocity", mrb_mruby_gyro_sensor_getAnglerVelocity, MRB_ARGS_NONE());
 	mrb_define_method(mrb, gyro_sensor_class, "reset", mrb_mruby_gyro_sensor_reset, MRB_ARGS_NONE());
 }
 
