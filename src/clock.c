@@ -12,7 +12,21 @@ getTim()
 	return time;
 }
 
-static mrb_value mrb_mruby_clock_reset(mrb_state *mrb, mrb_value self);
+static mrb_value
+mrb_mruby_clock_reset(mrb_state *mrb, mrb_value self)
+{
+	mrb_int start_clock = getTim();
+	mrb_iv_set(mrb, self, mrb_intern_lit(mrb, "@start_clock"), mrb_fixnum_value(start_clock));
+	return mrb_true_value();
+}
+
+MRB_API mrb_value
+mrb_mruby_get_utim()
+{
+	SYSTIM time;
+	get_utm(&time);
+	return mrb_fixnum_value(time);
+}
 
 static mrb_value
 mrb_mruby_clock_initialize(mrb_state *mrb, mrb_value self)
@@ -41,14 +55,6 @@ mrb_mruby_clock_sleep(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
-mrb_mruby_clock_reset(mrb_state *mrb, mrb_value self)
-{
-	mrb_int start_clock = getTim();
-	mrb_iv_set(mrb, self, mrb_intern_lit(mrb, "@start_clock"), mrb_fixnum_value(start_clock));
-	return mrb_true_value();
-}
-
-static mrb_value
 mrb_mruby_clock_now(mrb_state *mrb, mrb_value self)
 {
 	mrb_value start_clock_val = mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@start_clock"));
@@ -68,6 +74,7 @@ mrb_mruby_clock_gem_init(mrb_state* mrb)
 	mrb_define_method(mrb, clock_class, "now", mrb_mruby_clock_now, MRB_ARGS_NONE());
 	mrb_define_method(mrb, clock_class, "wait", mrb_mruby_clock_wait, MRB_ARGS_REQ(1));
 	mrb_define_method(mrb, clock_class, "sleep", mrb_mruby_clock_sleep, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, clock_class, "utim", mrb_mruby_get_utim, MRB_ARGS_NONE());
 }
 
 void
