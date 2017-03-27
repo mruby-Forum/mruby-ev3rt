@@ -24,12 +24,12 @@ static mrb_value
 mrb_mruby_play_tone(mrb_state *mrb, mrb_value self){
 	mrb_int frequency, duration;
 	mrb_get_args(mrb, "ii", &frequency, &duration);
-//TODO	ER ret = sound_play_tone((uint_16_t)frequency, duration);
-//	if(ret == E_OK){
+	ER ret = ev3_speaker_play_tone((uint16_t)frequency, duration);
+	if(ret == E_OK){
 		return mrb_true_value();
-//	}else{
-//		return mrb_false_value();
-//	}
+	}else{
+		return mrb_false_value();
+	}
 }
 
 
@@ -38,7 +38,7 @@ mrb_mruby_play_wav(mrb_state *mrb, mrb_value self){
 // TODO
 //	mrb_int frequency, duration;
 //	mrb_get_args(mrb, "ii", &frequency, &duration);
-//	ER ret = sound_play_tone((uint_16_t)frequency, duration);
+//	ER ret = sound_play_tone((uint16_t)frequency, duration);
 //	if(ret == E_OK){
 		return mrb_true_value();
 //	}else{

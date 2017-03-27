@@ -22,7 +22,7 @@ mrb_mruby_lcd_print(mrb_state *mrb, mrb_value self)
 	char *msg;
 	mrb_get_args(mrb, "S", &s);
 	msg = mrb_str_to_cstr(mrb, s);
-	ev3_lcd_fill_rect(0, 0, EV3_LCD_WIDTH, EV3_LCD_HEIGHT, EV3_LCD_WHITE);
+	ev3_lcd_fill_rect(0, CALIB_FONT_HEIGHT*1, EV3_LCD_WIDTH, CALIB_FONT_HEIGHT*2, EV3_LCD_WHITE);
 	ev3_lcd_draw_string(msg, 0, CALIB_FONT_HEIGHT*1);
 	return mrb_true_value();
 }
