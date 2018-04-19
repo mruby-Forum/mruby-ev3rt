@@ -216,13 +216,18 @@ mrb_ary_shuffle_bang(mrb_state *mrb, mrb_value ary)
 
     for (i = RARRAY_LEN(ary) - 1; i > 0; i--)  {
       mrb_int j;
+      mrb_value *ptr = RARRAY_PTR(ary);  // mruby 1.3まではこれは不要
       mrb_value tmp;
 
       j = mrb_fixnum(mrb_random_mt_rand(mrb, random, mrb_fixnum_value(RARRAY_LEN(ary))));
 
-      tmp = RARRAY_PTR(ary)[i];
-      mrb_ary_ptr(ary)->ptr[i] = RARRAY_PTR(ary)[j];
-      mrb_ary_ptr(ary)->ptr[j] = tmp;
+// mruby 1.3まではこちらを使う
+//      tmp = RARRAY_PTR(ary)[i];
+//      mrb_ary_ptr(ary)->ptr[i] = RARRAY_PTR(ary)[j];
+//      mrb_ary_ptr(ary)->ptr[j] = tmp;
+      tmp = ptr[i];
+      ptr[i] = ptr[j];
+      ptr[j] = tmp;
     }
   }
 
