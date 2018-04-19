@@ -8,7 +8,7 @@
 # hrp2 directory
 EV3RT_PATH = "/Users/xxx/ev3rt/hrp2"
 
-GNU_TOOL_PREFX = "/usr/local/gcc-arm-none-eabi-4_9-2014q4/bin/arm-none-eabi-"
+GNU_TOOL_PREFX = "/usr/local/gcc-arm-none-eabi-6-2017-q2-update/bin/arm-none-eabi-"
 
 ##GNU_TOOL_PREFX = "arm-none-eabi-"
 
@@ -88,7 +88,7 @@ MRuby::CrossBuild.new("EV3RT") do |conf|
 
     cc.flags = %w(-std=gnu99 -Dgcc -Dam1808 -mcpu=arm926ej-s -mlittle-endian -nostdlib
                   -Wall -DBUILD_EV3_PLATFORM -DCONFIG_FB_DEFERRED_IO
-                  -D__KERNEL__ -D__TARGET_ARCH_ARM=5 -DTOPPERS_CFG1_OUT)
+                  -D__KERNEL__ -D__TARGET_ARCH_ARM=5 -DTOPPERS_CFG1_OUT -DTOPPERS_EV3)
 
 
     cc.flags << %w(-O3)
@@ -144,9 +144,9 @@ MRuby::CrossBuild.new("EV3RT") do |conf|
   #conf.gem :core => "mruby-object-ext"
   #conf.gem "mrbgems/mruby-ev3rt"
 #  conf.gembox 'default'
-  conf.gem "../mruby-ev3rt"
+#  conf.gem "../mruby-ev3rt"
   conf.gem :github => "yamanekko/mruby-ev3rt-io"
-#  conf.gem :github => "yamanekko/mruby-ev3rt"
+  conf.gem :github => "yamanekko/mruby-ev3rt"
 
   #light-weight regular expression
   #conf.gem :github => "masamitsu-murase/mruby-hs-regexp", :branch => "master"

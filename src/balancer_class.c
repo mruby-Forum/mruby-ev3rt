@@ -3,8 +3,10 @@
 #include "mruby/value.h"
 #include "mruby/variable.h"
 #include "ev3api.h"
+#include "serial.h"	// for Bluetooth(log)
 #include "balancer.h"
 #include "balancer_private.h"
+
 
 //float K_F[4]
 // @K_F0 車輪回転角度係数, @K_F1 車体傾斜角度係数, @K_F2 車輪回転角速度係数 ,@K_F3 車体傾斜角速度係数
@@ -15,6 +17,9 @@ mrb_mruby_balancer_initialize(mrb_state *mrb, mrb_value self)
 	// default gyro direction is normal
 	mrb_int n1 = 1;
 	mrb_iv_set(mrb, self, mrb_intern_lit(mrb, "@gyro_direction"), mrb_fixnum_value(n1));
+	mrb_iv_set(mrb, self, mrb_intern_lit(mrb, "@pwm_L"), mrb_fixnum_value(0));
+	mrb_iv_set(mrb, self, mrb_intern_lit(mrb, "@pwm_R"), mrb_fixnum_value(0));
+
 	balance_init();
 	return self;
 }
@@ -88,6 +93,7 @@ mrb_mruby_balancer_calculate(mrb_state *mrb, mrb_value self)
 	signed char pwm_L, pwm_R;
 	mrb_get_args(mrb, "iiiiiii", &forward, &turn, &gyro, &offset, &motor_ang_l, &motor_ang_r, &volt);
 
+	backlashCanceler(mrb, self, &motor_ang_l, &motor_ang_r);
 	balance_control(
 		(float)forward,
 		(float)turn,
@@ -101,6 +107,8 @@ mrb_mruby_balancer_calculate(mrb_state *mrb, mrb_value self)
 	mrb_value ary = mrb_ary_new_capa(mrb, 2);
 	mrb_ary_set(mrb, ary, 0, mrb_fixnum_value((mrb_int)pwm_L));
 	mrb_ary_set(mrb, ary, 1, mrb_fixnum_value((mrb_int)pwm_R));
+	mrb_iv_set(mrb, self, mrb_intern_lit(mrb, "@pwm_R"), mrb_fixnum_value((mrb_int)pwm_R));
+	mrb_iv_set(mrb, self, mrb_intern_lit(mrb, "@pwm_L"), mrb_fixnum_value((mrb_int)pwm_L));
 
 	return ary;
 }
@@ -113,6 +121,7 @@ mrb_mruby_balancer_calculate_auto(mrb_state *mrb, mrb_value self)
 	mrb_int forward, turn, gyro, offset, motor_ang_l, motor_ang_r, volt, gyro_direction;
 	signed char pwm_L, pwm_R;
 	mrb_get_args(mrb, "iii", &forward, &turn, &offset);
+	char msg[64];
 
 	mrb_value gyro_sensor = mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@gyro"));
 	sensor_port_t gyro_port = (sensor_port_t)mrb_fixnum(mrb_iv_get(mrb, gyro_sensor, mrb_intern_lit(mrb, "@port")));
@@ -130,8 +139,24 @@ mrb_mruby_balancer_calculate_auto(mrb_state *mrb, mrb_value self)
 	mrb_value right_motor = mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@right_motor"));
 	motor_port_t right_motor_port = (motor_port_t)mrb_fixnum(mrb_iv_get(mrb, right_motor, mrb_intern_lit(mrb, "@port")));
 	motor_ang_r = ev3_motor_get_counts(right_motor_port);
+	int r1 = motor_ang_r;
+	int l1 = motor_ang_l;
 
 	volt = ev3_battery_voltage_mV();
+
+  const int BACKLASHHALF = 4;   // バックラッシュの半分[deg]
+
+	int mRightPwm = mrb_fixnum(mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@pwm_R")));
+	int mLeftPwm = mrb_fixnum(mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@pwm_L")));
+  if(mRightPwm < 0) motor_ang_r += BACKLASHHALF;
+  else if(mRightPwm > 0) motor_ang_r -= BACKLASHHALF;
+
+  if(mLeftPwm < 0) motor_ang_l += BACKLASHHALF;
+  else if(mLeftPwm > 0) motor_ang_l -= BACKLASHHALF;
+
+
+	int r2 = motor_ang_r;
+	int l2 = motor_ang_l;
 
 	balance_control(
 		(float)forward,
@@ -150,7 +175,14 @@ mrb_mruby_balancer_calculate_auto(mrb_state *mrb, mrb_value self)
 	mrb_ary_set(mrb, ary, 3, mrb_fixnum_value(motor_ang_r));	// for log : right motor
 	mrb_ary_set(mrb, ary, 4, mrb_fixnum_value(motor_ang_l));	// for log : left motor
 	mrb_ary_set(mrb, ary, 5, mrb_fixnum_value(volt));	// for log : battery
+	mrb_iv_set(mrb, self, mrb_intern_lit(mrb, "@pwm_R"), mrb_fixnum_value((mrb_int)pwm_R));
+	mrb_iv_set(mrb, self, mrb_intern_lit(mrb, "@pwm_L"), mrb_fixnum_value((mrb_int)pwm_L));
 
+	int r3 = (int)pwm_R;
+	int l3 = (int)pwm_L;
+	memset(msg, 0x00, sizeof(msg));
+	sprintf(msg, "r0:%d, l0:%d r1:%d, l1:%d, r2:%d, l2:%d, r3:%d, l3:%d\r\n",mRightPwm,mLeftPwm, r1, l1, r2, l2, r3, l3);
+	serial_wri_dat(SIO_PORT_BT, msg, sizeof(msg));
 	return ary;
 }
 
