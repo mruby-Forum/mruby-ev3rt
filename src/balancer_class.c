@@ -7,6 +7,7 @@
 #include "balancer.h"
 #include "balancer_private.h"
 
+const int BACKLASHHALF = 4;   // バックラッシュの半分[deg]
 
 //float K_F[4]
 // @K_F0 車輪回転角度係数, @K_F1 車体傾斜角度係数, @K_F2 車輪回転角速度係数 ,@K_F3 車体傾斜角速度係数
@@ -93,7 +94,15 @@ mrb_mruby_balancer_calculate(mrb_state *mrb, mrb_value self)
 	signed char pwm_L, pwm_R;
 	mrb_get_args(mrb, "iiiiiii", &forward, &turn, &gyro, &offset, &motor_ang_l, &motor_ang_r, &volt);
 
-	backlashCanceler(mrb, self, &motor_ang_l, &motor_ang_r);
+
+	int mRightPwm = mrb_fixnum(mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@pwm_R")));
+	int mLeftPwm = mrb_fixnum(mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@pwm_L")));
+  if(mRightPwm < 0) motor_ang_r += BACKLASHHALF;
+  else if(mRightPwm > 0) motor_ang_r -= BACKLASHHALF;
+
+  if(mLeftPwm < 0) motor_ang_l += BACKLASHHALF;
+  else if(mLeftPwm > 0) motor_ang_l -= BACKLASHHALF;
+
 	balance_control(
 		(float)forward,
 		(float)turn,
@@ -143,8 +152,6 @@ mrb_mruby_balancer_calculate_auto(mrb_state *mrb, mrb_value self)
 	int l1 = motor_ang_l;
 
 	volt = ev3_battery_voltage_mV();
-
-  const int BACKLASHHALF = 4;   // バックラッシュの半分[deg]
 
 	int mRightPwm = mrb_fixnum(mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@pwm_R")));
 	int mLeftPwm = mrb_fixnum(mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@pwm_L")));
