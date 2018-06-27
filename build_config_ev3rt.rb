@@ -5,9 +5,9 @@
 # User Configuration
 #
 
-# hrp2 directory
 EV3RT_PATH = "/Users/xxx/ev3rt/hrp2"
 
+#GNU_TOOL_PREFX = "/usr/local/gcc-arm-none-eabi-4_9-2014q4/bin/arm-none-eabi-"
 GNU_TOOL_PREFX = "/usr/local/gcc-arm-none-eabi-6-2017-q2-update/bin/arm-none-eabi-"
 
 ##GNU_TOOL_PREFX = "arm-none-eabi-"
@@ -142,11 +142,12 @@ MRuby::CrossBuild.new("EV3RT") do |conf|
   #conf.gem :core => "mruby-symbol-ext"
   #conf.gem :core => "mruby-random"
   #conf.gem :core => "mruby-object-ext"
+  conf.gem :core => "mruby-compiler"
   #conf.gem "mrbgems/mruby-ev3rt"
 #  conf.gembox 'default'
-#  conf.gem "../mruby-ev3rt"
-  conf.gem :github => "yamanekko/mruby-ev3rt-io"
-  conf.gem :github => "yamanekko/mruby-ev3rt"
+  conf.gem "../mruby-ev3rt"
+#conf.gem :github => "yamanekko/mruby-ev3rt-io"
+#  conf.gem :github => "yamanekko/mruby-ev3rt"
 
   #light-weight regular expression
   #conf.gem :github => "masamitsu-murase/mruby-hs-regexp", :branch => "master"
