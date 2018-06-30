@@ -32,6 +32,8 @@ mrb_mruby_battery_gem_init(mrb_state* mrb)
 	mrb_define_method(mrb, battery_class, "initialize", mrb_mruby_battery_initialize, MRB_ARGS_NONE());
 	mrb_define_class_method(mrb, battery_class, "batteryVoltage", mrb_mruby_battery_getVoltage, MRB_ARGS_NONE());
 	mrb_define_class_method(mrb, battery_class, "batteryCurrent", mrb_mruby_battery_getCurrent, MRB_ARGS_NONE());
+	mrb_define_class_method(mrb, battery_class, "battery_voltage", mrb_mruby_battery_getVoltage, MRB_ARGS_NONE());
+	mrb_define_class_method(mrb, battery_class, "battery_current", mrb_mruby_battery_getCurrent, MRB_ARGS_NONE());
 }
 
 void
