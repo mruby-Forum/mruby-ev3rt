@@ -18,6 +18,7 @@ void mrb_mruby_sound_gem_init(mrb_state *mrb);
 void mrb_mruby_serial_gem_init(mrb_state *mrb);
 void mrb_mruby_task_gem_init(mrb_state *mrb);
 void mrb_mruby_random_gem_init(mrb_state *mrb);
+void mrb_mruby_shared_memory_gem_init(mrb_state *mrb);
 
 static mrb_value
 mrb_mruby_ev3rt_initialize(mrb_state *mrb, mrb_value self)
@@ -92,6 +93,7 @@ mrb_mruby_ev3rt_gem_init(mrb_state* mrb)
         mrb_mruby_sound_gem_init(mrb);
         mrb_mruby_task_gem_init(mrb);
         mrb_mruby_random_gem_init(mrb);
+        mrb_mruby_shared_memory_gem_init(mrb);
 
         // motor
         mrb_mruby_motor_gem_init(mrb);
