@@ -130,7 +130,9 @@ mrb_mruby_balancer_calculate_auto(mrb_state *mrb, mrb_value self)
 	mrb_int forward, turn, gyro, offset, motor_ang_l, motor_ang_r, volt, gyro_direction;
 	signed char pwm_L, pwm_R;
 	mrb_get_args(mrb, "iii", &forward, &turn, &offset);
-	char msg[64];
+#ifdef USE_BALANCER_LOG
+	char msg[256];
+#endif
 
 	mrb_value gyro_sensor = mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@gyro"));
 	sensor_port_t gyro_port = (sensor_port_t)mrb_fixnum(mrb_iv_get(mrb, gyro_sensor, mrb_intern_lit(mrb, "@port")));
@@ -187,9 +189,13 @@ mrb_mruby_balancer_calculate_auto(mrb_state *mrb, mrb_value self)
 
 	int r3 = (int)pwm_R;
 	int l3 = (int)pwm_L;
+
+#ifdef USE_BALANCER_LOG
 	memset(msg, 0x00, sizeof(msg));
 	sprintf(msg, "r0:%d, l0:%d r1:%d, l1:%d, r2:%d, l2:%d, r3:%d, l3:%d\r\n",mRightPwm,mLeftPwm, r1, l1, r2, l2, r3, l3);
 	serial_wri_dat(SIO_PORT_BT, msg, sizeof(msg));
+#endif	
+
 	return ary;
 }
 
