@@ -28,7 +28,7 @@ MRuby::Build.new do |conf|
   enable_debug
 
   # include the default GEMs
-  conf.gembox 'default'
+  #conf.gembox 'default'
 
 end
 
@@ -142,7 +142,7 @@ MRuby::CrossBuild.new("EV3RT") do |conf|
   #conf.gem :core => "mruby-symbol-ext"
   #conf.gem :core => "mruby-random"
   #conf.gem :core => "mruby-object-ext"
-  conf.gem :core => "mruby-compiler"
+  #conf.gem :core => "mruby-compiler"
   #conf.gem "mrbgems/mruby-ev3rt"
 #  conf.gembox 'default'
   conf.gem "../mruby-ev3rt"

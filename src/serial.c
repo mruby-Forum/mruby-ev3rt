@@ -31,6 +31,22 @@ mrb_mruby_serial_write(mrb_state *mrb, mrb_value self)
 	}
 }
 
+static mrb_value
+mrb_mruby_serial_read_byte(mrb_state *mrb, mrb_value self)
+{
+	mrb_int len;
+	uint8_t buf;
+
+	signed int port = mrb_fixnum(mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@serialPort")));
+	ER_UINT erlen = serial_rea_dat(port, (char*)&buf, sizeof(buf));
+	if(erlen > 0){
+		return mrb_fixnum_value(buf);
+	}else{
+		return mrb_nil_value();
+	}
+
+}
+
 void
 mrb_mruby_serial_gem_init(mrb_state* mrb)
 {
@@ -39,6 +55,7 @@ mrb_mruby_serial_gem_init(mrb_state* mrb)
 
 	mrb_define_method(mrb, serial_class, "initialize", mrb_mruby_serial_initialize, MRB_ARGS_REQ(1));
 	mrb_define_method(mrb, serial_class, "write", mrb_mruby_serial_write, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, serial_class, "read_byte", mrb_mruby_serial_read_byte, MRB_ARGS_NONE());
 }
 
 void
