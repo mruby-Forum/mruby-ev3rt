@@ -5,13 +5,13 @@
 # User Configuration
 #
 
-EV3RT_PATH = "/Users/xxx/ev3rt/hrp2"
+EV3RT_PATH = "ここにEV3RTのhrp3ディレクトリのパスを入れてください Ex. /Users/xxx/ev3rt/hrp3"
 
+# ArmGCCのパスを入れてください。
+# gcc-arm-none-eabi-9-2019-q4-major はうまく動かないようです。
+# 私はgcc-arm-none-eabi-6-2017-q2-updateで動作確認しています。
 #GNU_TOOL_PREFX = "/usr/local/gcc-arm-none-eabi-4_9-2014q4/bin/arm-none-eabi-"
-GNU_TOOL_PREFX = "/usr/local/gcc-arm-none-eabi-6-2017-q2-update/bin/arm-none-eabi-"
-
-##GNU_TOOL_PREFX = "arm-none-eabi-"
-
+#GNU_TOOL_PREFX = "/usr/local/gcc-arm-none-eabi-6-2017-q2-update/bin/arm-none-eabi-"
 
 #
 # mruby Build Tasks
@@ -40,6 +40,7 @@ MRuby::CrossBuild.new("EV3RT") do |conf|
   toolchain :gcc
 
   EV3_RT_INCLUDES = %w(include
+                       .
                        arch
                        target/ev3_gcc
                        target/ev3_gcc/api
@@ -75,7 +76,7 @@ MRuby::CrossBuild.new("EV3RT") do |conf|
                        target/ev3_gcc/platform/include
                        target/ev3_gcc/TLSF-2.4.6/include
                        sdk/common/ev3api/include
-					   syssvc
+					             syssvc
                        arch/arm_gcc/am1808
                        arch/arm_gcc/common
                        arch/gcc)
@@ -86,12 +87,12 @@ MRuby::CrossBuild.new("EV3RT") do |conf|
 
     cc.include_paths << EV3_RT_INCLUDES.map{|inc| File.join(EV3RT_PATH, inc)}
 
+    # EV3RT ver1.0で TOPPERS_OMIT_TECS の指定が必要になりました（β版では不要）
     cc.flags = %w(-std=gnu99 -Dgcc -Dam1808 -mcpu=arm926ej-s -mlittle-endian -nostdlib
                   -Wall -DBUILD_EV3_PLATFORM -DCONFIG_FB_DEFERRED_IO
-                  -D__KERNEL__ -D__TARGET_ARCH_ARM=5 -DTOPPERS_CFG1_OUT -DTOPPERS_EV3)
+                  -D__KERNEL__ -D__TARGET_ARCH_ARM=5 -DTOPPERS_CFG1_OUT -DTOPPERS_EV3 -DTOPPERS_OMIT_TECS)
 
-
-    cc.flags << %w(-O3)
+    cc.flags << %w(-O3) # お好みで変えてください
     ##cc.flags << %w(-Os)
 #    cc.flags << %w(-g3)
     ##cc.flags << %w(DUSE_CFG_PASS3)
@@ -143,12 +144,7 @@ MRuby::CrossBuild.new("EV3RT") do |conf|
   #conf.gem :core => "mruby-random"
   #conf.gem :core => "mruby-object-ext"
   conf.gem :core => "mruby-compiler"
-  #conf.gem "mrbgems/mruby-ev3rt"
 #  conf.gembox 'default'
-  conf.gem "../mruby-ev3rt"
-#conf.gem :github => "yamanekko/mruby-ev3rt-io"
-#  conf.gem :github => "yamanekko/mruby-ev3rt"
-
-  #light-weight regular expression
-  #conf.gem :github => "masamitsu-murase/mruby-hs-regexp", :branch => "master"
+  conf.gem "../mruby-ev3rt"  # mrubyからみたmruby-ev3rtの相対パスです。
+#  conf.gem :github => "yamanekko/mruby-ev3rt"  # ブランチ、タグを指定も可。わかっている人向け
 end

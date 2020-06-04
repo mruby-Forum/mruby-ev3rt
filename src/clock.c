@@ -22,9 +22,10 @@ mrb_mruby_clock_reset(mrb_state *mrb, mrb_value self)
 
 MRB_API mrb_value
 mrb_mruby_get_utim()
-{
-	SYSTIM time;
-	get_utm(&time);
+{	// 互換性のため暫定処置
+		HRTCNT time;
+		time = fch_hrt();
+
 	return mrb_fixnum_value(time);
 }
 
@@ -50,7 +51,7 @@ mrb_mruby_clock_sleep(mrb_state *mrb, mrb_value self)
 	mrb_int duration;
 	mrb_get_args(mrb, "i", &duration);
 
-	tslp_tsk(duration);
+	tslp_tsk(duration * 1000);
 	return self;
 }
 

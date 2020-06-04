@@ -28,7 +28,7 @@ mrb_mruby_task_sleep(mrb_state *mrb, mrb_value self)
 	if(ret == 0){
 		slp_tsk();
 	}else{
-		tslp_tsk(timeout);
+		tslp_tsk(timeout * 1000);
 	}
 	return self;
 }
@@ -92,7 +92,7 @@ mrb_mruby_task_start_cyclic(mrb_state *mrb, mrb_value self)
 {
 	mrb_int task_id;
 	mrb_int ret = mrb_get_args(mrb, "i", &task_id);
-	ev3_sta_cyc(task_id);
+	sta_cyc(task_id);
 
 	// for debug
 //	char msg[256];
@@ -110,7 +110,7 @@ mrb_mruby_task_stop_cyclic(mrb_state *mrb, mrb_value self)
 {
 	mrb_int task_id;
 	mrb_int ret = mrb_get_args(mrb, "i", &task_id);
-	ev3_stp_cyc(task_id);
+	sta_cyc(task_id);
 
 	// for debug
 //	char msg[256];
