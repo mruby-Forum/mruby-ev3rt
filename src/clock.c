@@ -41,7 +41,7 @@ mrb_mruby_clock_wait(mrb_state *mrb, mrb_value self)
 	mrb_int duration;
 	mrb_get_args(mrb, "i", &duration);
 
-	dly_tsk(duration);
+	dly_tsk(duration * 1000);
 	return self;
 }
 
