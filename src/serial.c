@@ -23,12 +23,16 @@ mrb_mruby_serial_write(mrb_state *mrb, mrb_value self)
 
 	signed int port = mrb_fixnum(mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@serialPort")));
 
+	#ifdef SIM 
+		syslog(LOG_NOTICE, msg);
+	#else
 	ER err = serial_wri_dat(port, msg, (uint_t)len);
 	if(err < 0){
 		return mrb_false_value();
 	}else{
 		return mrb_true_value();
 	}
+	#endif
 }
 
 static mrb_value

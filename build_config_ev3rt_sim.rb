@@ -5,11 +5,10 @@
 # User Configuration
 #
 
-EV3RT_PATH = "/Users/toi/Documents/Hakoniwa/athrill-sample.work/ev3rt/ev3rt-beta7-release/asp3"
+EV3RT_PATH = "ev3rt-athrill-v850e2m のパスをここに書く"
 
 
-#GNU_TOOL_PREFX = "/usr/local/gcc-arm-none-eabi-4_9-2014q4/bin/arm-none-eabi-"
-GNU_TOOL_PREFX = "/usr/local/bin/v850-elf-"
+GNU_TOOL_PREFX = "（環境に合わせてパスを追加）/athrill-gcc/bin/v850-elf-"
 
 ##GNU_TOOL_PREFX = "arm-none-eabi-"
 
@@ -36,7 +35,7 @@ end
 # Cross Compiling configuration for EV3RT
 # http://dev.toppers.jp/trac_user/ev3pf/wiki/WhatsEV3RT (in Japanese)
 #
-MRuby::CrossBuild.new("EV3RT") do |conf|
+MRuby::CrossBuild.new("EV3RT-sim") do |conf|
 
   toolchain :gcc
 
@@ -90,7 +89,7 @@ MRuby::CrossBuild.new("EV3RT") do |conf|
 
     cc.flags = %w(-std=gnu99 -Dgcc -mv850e2v3 -nostdlib
                   -Wall -DBUILD_EV3_PLATFORM -DCONFIG_FB_DEFERRED_IO
-                  -D__KERNEL__ -D__TARGET_ARCH_ARM=5 -DTOPPERS_CFG1_OUT -DTOPPERS_EV3)
+                  -D__KERNEL__ -D__TARGET_ARCH_ARM=5 -DTOPPERS_CFG1_OUT -DTOPPERS_EV3 -DSIM)
 
 
     cc.flags << %w(-O3)
