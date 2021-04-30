@@ -12,5 +12,5 @@
 |[EV3RT::ColorSensor](ColorSensor.md)|カラーセンサクラス|EV3のカラーセンサを使用して色計測を行うクラスです。||
 |EV3RT::GyroSensor|ジャイロセンサクラス|EV3のジャイロセンサを使用して角度計測を行うクラスです。||
 |EV3RT::SonarSensor|超音波センサクラス|EV3の超音波センサを使用して距離計測を行うクラスです。||
-|EV3RT::TouchSensor|タッチセンサクラス|EV3のタッチセンサを使用してタッチ操作・状態を取得するクラスです。||
+|[EV3RT::TouchSensor](TouchSensor.md)|タッチセンサクラス|EV3のタッチセンサを使用してタッチ操作・状態を取得するクラスです。||
 |EV3RT::Task|タスククラス|TOPPERS/EV3RTのタスク制御を行うクラスです。||
