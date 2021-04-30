@@ -44,7 +44,7 @@ EV3のカラーセンサを使用して色計測を行うクラスです。
 
 ---
 
-### EV3RT::ColorSensor.brightness => Integer
+### EV3RT::ColorSensor#brightness => Integer
 
 カラーセンサで反射光の強さを取得します。
 
@@ -58,7 +58,7 @@ EV3のカラーセンサを使用して色計測を行うクラスです。
 
 ---
 
-### EV3RT::ColorSensor.rgb => Array
+### EV3RT::ColorSensor#rgb => Array
 
 カラーセンサで計測したRGB値を取得します。
 
@@ -72,7 +72,7 @@ EV3のカラーセンサを使用して色計測を行うクラスです。
 
 ---
 
-### EV3RT::ColorSensor.rgb_part(n) => Integer
+### EV3RT::ColorSensor#rgb_part(n) => Integer
 
 カラーセンサで計測したRGB値を取得します。
 
