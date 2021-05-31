@@ -43,7 +43,7 @@ end
 
 大袈裟に書くとこんな感じで蛇行しながら走ります。
 
-![ライントレースの様子の画像](https://github.com/mruby-Forum/mruby-ev3rt/tree/master/doc/images/sample-guide-control-lintrace.png)
+![ライントレースの様子の画像](https://github.com/mruby-Forum/mruby-ev3rt/raw/master/doc/images/sample-guide-control-lintrace.png)
 
 図1: ライントレースの様子
 
@@ -111,7 +111,7 @@ ETロボコンでは、ライトコースとレフトコースの２種類のコ
 ちなみに、基本的にはライントレースは左端と右端のどちらをトレースしても良いのですが、ETロボコンでは、コースに分岐があるなど、どちらをトレースするかが決まっていることが多いです。
 
 
-![左エッジと右エッジどちらをトレースするかによってルートが変わる例の画像](https://github.com/mruby-Forum/mruby-ev3rt/tree/master/doc/images/sample-guide-control-edge.png)
+![左エッジと右エッジどちらをトレースするかによってルートが変わる例の画像](https://github.com/mruby-Forum/mruby-ev3rt/raw/master/doc/images/sample-guide-control-edge.png)
 
 図2: 左エッジと右エッジどちらをトレースするかによってルートが変わる例
 
