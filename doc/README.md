@@ -8,7 +8,7 @@
 |[EV3RT::Button](Button.md)|ボタンクラス|EV3本体のボタン操作・状態を取得するクラスです。||
 |[EV3RT::LED](LED.md)|LEDクラス|EV3本体のLEDを制御するクラスです。||
 |[EV3RT::Motor](Motor.md)|モータクラス|EV3のサーボモータを操作するクラスです。||
-|EV3RT::Sensor|センサクラス|EV3の各種センサの基底クラスです。||
+|[EV3RT::Sensor](Sensor.md)|センサクラス|EV3の各種センサの基底クラスです。||
 |[EV3RT::ColorSensor](ColorSensor.md)|カラーセンサクラス|EV3のカラーセンサを使用して色計測を行うクラスです。||
 |[EV3RT::GyroSensor](GyroSensor.md)|ジャイロセンサクラス|EV3のジャイロセンサを使用して角度計測を行うクラスです。||
 |[EV3RT::SonarSensor](SonarSensor.md)|超音波センサクラス|EV3の超音波センサを使用して距離計測を行うクラスです。||
