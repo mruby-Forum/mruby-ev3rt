@@ -95,7 +95,7 @@ arrayのため、若干メモリ利用量が増え、GC：Garbage collection（�
 そのため、RGBのうち１つだけで良い場合はrgb_partを使う方が良いでしょう。
 
 	
-* モーターに指示する値（left_powerの値）を求める
+#### モーターに指示する値（left_powerの値）を求める
 
 続いて、モーターに指示する値を求めている部分を見てみます。
 
@@ -193,7 +193,7 @@ end
 
 ### 参考情報
 
-* @left_motor.power = left_power の構文について
+#### @left_motor.power = left_power の構文について
 
 Rubyを知らない方だと @left_motor.power = left_power をみて、変数に値を入れているだけなのに、なぜモーターがまわせるの？と不思議に思うかもしれません。
 
@@ -217,7 +217,7 @@ def power=(val)
 end
 ```
 
-* C言語用サンプルコード( sample_c4 )で使用しているev3_motor_steer() について
+#### C言語用サンプルコード( sample_c4 )で使用しているev3_motor_steer() について
 
 C言語用のサンプル、sample_c4では、ev3_motor_steer() を使って走行体を旋回させています。
 
