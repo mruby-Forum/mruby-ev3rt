@@ -2,7 +2,9 @@
 
 <table width="100%"><tr><td align="right"><a href="README.md">戻る</a></td></tr></table>
 
-[TOPPERS/EV3RT](https://dev.toppers.jp/trac_user/ev3pf/wiki/WhatsEV3RT) のタスクを制御するクラスです。
+[TOPPERS/EV3RT](https://dev.toppers.jp/trac_user/ev3pf/wiki/WhatsEV3RT) のタスクを制御するクラスです。  
+`TOPPERS/EV3RT` の各メソッドでは、TOPPERS/EV3RTカーネルのサービスコール(`C言語API`)を呼び出して、タスク制御を行います。  
+`TOPPERS/EV3RT`でのタスク制御の仕様を理解するには [こちら](https://monozukuri-c.com/itron-taskstatus/) の記事が参考になります。
 
 ## メソッド一覧
 
@@ -39,7 +41,8 @@
 
 ### EV3RT::Task#sleep(tmo) => self
 
-`TOPPERS/EV3RT` の `tslp_tsk` または `slp_tsk` を呼び出して、自タスクを起床待ち（スリープ）状態にします。
+`TOPPERS/EV3RT` の `tslp_tsk` または `slp_tsk` を呼び出して、自タスクを起床待ち（スリープ）状態にします。  
+`slp_tsk` の仕様は [こちら](https://monozukuri-c.com/itron-taskstatus/#toc11) を参考にしてください。
 
 #### 引数
 
@@ -55,8 +58,8 @@
 
 ### EV3RT::Task#delay(dlytim) => self
 
-`TOPPERS/EV3RT` の `dly_tsk` を呼び出して、指定した時間、自タスクを遅延させます。
-
+`TOPPERS/EV3RT` の `dly_tsk` を呼び出して、指定した時間、自タスクを遅延させます。  
+`dly_tsk` の仕様は [こちら](https://monozukuri-c.com/itron-taskstatus/#toc5) を参考にしてください。
 #### 引数
 
 |引数|概要|備考|
@@ -71,8 +74,8 @@
 
 ### EV3RT::Task#wakeup(tskid) => self
 
-`TOPPERS/EV3RT` の `wup_tsk` を呼び出して、指定したタスクを起床させます。
-
+`TOPPERS/EV3RT` の `wup_tsk` を呼び出して、指定したタスクを起床させます。  
+`wup_tsk` の仕様は [こちら](https://monozukuri-c.com/itron-taskstatus/#toc12) を参考にしてください。
 #### 引数
 
 |引数|概要|備考|
