@@ -79,6 +79,7 @@ MRuby::CrossBuild.new("EV3RT-sim") do |conf|
                        arch/arm_gcc/am1808
                        arch/arm_gcc/common
                        arch/gcc
+                       arch/v850_gcc
 			. )
 
 
@@ -86,6 +87,7 @@ MRuby::CrossBuild.new("EV3RT-sim") do |conf|
     cc.command = "#{GNU_TOOL_PREFX}gcc"
 
     cc.include_paths << EV3_RT_INCLUDES.map{|inc| File.join(EV3RT_PATH, inc)}
+    cc.include_paths << File.join('$ETROBO_HRP3_WORKSPACE', 'etroboc_common')
 
     cc.flags = %w(-std=gnu99 -Dgcc -mv850e2v3 -nostdlib
                   -Wall -DBUILD_EV3_PLATFORM -DCONFIG_FB_DEFERRED_IO

@@ -18,7 +18,7 @@ mrb_etrobo_get_course_info(mrb_state *mrb, mrb_value self)
     mrb_int info;
     char pos[2] = {0, 0};
     mrb_get_args(mrb, "i", &info);
-    pos[0] = ETRoboc_getCourseInfo((enum ETROBOC_COURSE_INFO_ID)info);
+    pos[0] = (char)ETRoboc_getCourseInfo((enum ETROBOC_COURSE_INFO_ID)info);
     return mrb_str_new_cstr(mrb, pos);
 }
 
@@ -29,21 +29,20 @@ mrb_mruby_etrobo_gem_init(mrb_state* mrb)
 
     // constants
     // enum ETROBOC_COURCE_INFO_ID
-    mrb_int n = 0;
-	mrb_define_const(mrb, etrobo, "CARD_NUMBER", mrb_fixnum_value(n++));
-	mrb_define_const(mrb, etrobo, "BLOCK_NUMBER", mrb_fixnum_value(n++));
-	mrb_define_const(mrb, etrobo, "BLOCK_POS_START", mrb_fixnum_value(n++));
-	mrb_define_const(mrb, etrobo, "BLOCK_POS_BLACK1", mrb_fixnum_value(n++));
-	mrb_define_const(mrb, etrobo, "BLOCK_POS_BLACK2", mrb_fixnum_value(n++));
-	mrb_define_const(mrb, etrobo, "BLOCK_POS_RED1", mrb_fixnum_value(n++));
-	mrb_define_const(mrb, etrobo, "BLOCK_POS_RED2", mrb_fixnum_value(n++));
-	mrb_define_const(mrb, etrobo, "BLOCK_POS_YELLOW1", mrb_fixnum_value(n++));
-	mrb_define_const(mrb, etrobo, "BLOCK_POS_YELLOW2", mrb_fixnum_value(n++));
-	mrb_define_const(mrb, etrobo, "BLOCK_POS_BLUE1", mrb_fixnum_value(n++));
-	mrb_define_const(mrb, etrobo, "BLOCK_POS_BLUE2", mrb_fixnum_value(n++));
-	mrb_define_const(mrb, etrobo, "BLOCK_POS_GREEN1", mrb_fixnum_value(n++));
-	mrb_define_const(mrb, etrobo, "BLOCK_POS_GREEN2", mrb_fixnum_value(n++));
-	mrb_define_const(mrb, etrobo, "BLOCK_POS_END", mrb_fixnum_value(n++));
+    mrb_define_const(mrb, etrobo, "CARD_NUMBER", mrb_fixnum_value(ETROBOC_COURSE_INFO_CARD_NUMBER));
+    mrb_define_const(mrb, etrobo, "BLOCK_NUMBER", mrb_fixnum_value(ETROBOC_COURSE_INFO_BLOCK_NUMBER));
+    mrb_define_const(mrb, etrobo, "BLOCK_POS_START", mrb_fixnum_value(ETROBOC_COURSE_INFO_BLOCK_POS_START));
+    mrb_define_const(mrb, etrobo, "BLOCK_POS_BLACK1", mrb_fixnum_value(ETROBOC_COURSE_INFO_BLOCK_POS_BLACK1));
+    mrb_define_const(mrb, etrobo, "BLOCK_POS_BLACK2", mrb_fixnum_value(ETROBOC_COURSE_INFO_BLOCK_POS_BLACK2));
+    mrb_define_const(mrb, etrobo, "BLOCK_POS_RED1", mrb_fixnum_value(ETROBOC_COURSE_INFO_BLOCK_POS_RED1));
+    mrb_define_const(mrb, etrobo, "BLOCK_POS_RED2", mrb_fixnum_value(ETROBOC_COURSE_INFO_BLOCK_POS_RED2));
+    mrb_define_const(mrb, etrobo, "BLOCK_POS_YELLOW1", mrb_fixnum_value(ETROBOC_COURSE_INFO_BLOCK_POS_YELLOW1));
+    mrb_define_const(mrb, etrobo, "BLOCK_POS_YELLOW2", mrb_fixnum_value(ETROBOC_COURSE_INFO_BLOCK_POS_YELLOW2));
+    mrb_define_const(mrb, etrobo, "BLOCK_POS_BLUE1", mrb_fixnum_value(ETROBOC_COURSE_INFO_BLOCK_POS_BLUE1));
+    mrb_define_const(mrb, etrobo, "BLOCK_POS_BLUE2", mrb_fixnum_value(ETROBOC_COURSE_INFO_BLOCK_POS_BLUE2));
+    mrb_define_const(mrb, etrobo, "BLOCK_POS_GREEN1", mrb_fixnum_value(ETROBOC_COURSE_INFO_BLOCK_POS_GREEN1));
+    mrb_define_const(mrb, etrobo, "BLOCK_POS_GREEN2", mrb_fixnum_value(ETROBOC_COURSE_INFO_BLOCK_POS_GREEN2));
+    mrb_define_const(mrb, etrobo, "BLOCK_POS_END", mrb_fixnum_value(ETROBOC_COURSE_INFO_BLOCK_POS_END));
 
   	// class methods
     mrb_define_class_method(mrb, etrobo, "notify_completed", mrb_etrobo_notify_completed, MRB_ARGS_NONE());
