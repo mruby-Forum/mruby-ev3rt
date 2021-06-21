@@ -15,3 +15,4 @@
 |[EV3RT::SonarSensor](SonarSensor.md)|超音波センサクラス|EV3の超音波センサを使用して距離計測を行うクラスです。||
 |[EV3RT::TouchSensor](TouchSensor.md)|タッチセンサクラス|EV3のタッチセンサを使用してタッチ操作・状態を取得するクラスです。||
 |[EV3RT::Task](Task.md)|タスククラス|TOPPERS/EV3RTのタスク制御を行うクラスです。||
+|[ETRobo](ETRobo.md)|ETRoboクラス|ETロボコン競技に関する機能を提供するクラスです。||
