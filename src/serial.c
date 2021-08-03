@@ -8,9 +8,11 @@
 static mrb_value
 mrb_mruby_serial_initialize(mrb_state *mrb, mrb_value self)
 {
+#ifndef SIM
 	mrb_int n;
 	mrb_get_args(mrb, "i", &n);
 	mrb_iv_set(mrb, self, mrb_intern_lit(mrb, "@serialPort"), mrb_fixnum_value(n));
+#endif
 	return self;
 }
 
@@ -18,27 +20,25 @@ static mrb_value
 mrb_mruby_serial_write(mrb_state *mrb, mrb_value self)
 {
 	const char *msg;
-	mrb_int len;
+#ifdef SIM	// for Simulator
+	mrb_get_args(mrb, "z", &msg);
+	syslog(LOG_NOTICE, msg);
+#else		// for EV3
+	size_t len;
 	mrb_get_args(mrb, "s", &msg, &len);
 
 	signed int port = mrb_fixnum(mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@serialPort")));
-
-	#ifdef SIM 
-		syslog(LOG_NOTICE, msg);
-	#else
 	ER err = serial_wri_dat(port, msg, (uint_t)len);
 	if(err < 0){
 		return mrb_false_value();
-	}else{
-		return mrb_true_value();
 	}
-	#endif
+#endif
+	return mrb_true_value();
 }
 
 static mrb_value
 mrb_mruby_serial_read_byte(mrb_state *mrb, mrb_value self)
 {
-	mrb_int len;
 	uint8_t buf;
 
 	signed int port = mrb_fixnum(mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@serialPort")));
